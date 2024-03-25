@@ -7,6 +7,7 @@ import Home from './Home'
 import Statistics from './Statistics'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import DemandeSuiv from './DemandeSuiv'
+import ProfilPage from './ProfilPage'
 
 const Tab = createBottomTabNavigator()
 
@@ -57,14 +58,12 @@ export const Main = () => {
         }}
         name="Statistics" 
         component={Statistics}
-      />  
-      <Tab.Screen
+      />
+      <Tab.Screen name="ProfilPage" component={ProfilPage}
         options={{
-          headerShown: false,
+          headerShown: false
         }}
-        name="SuivDemand" 
-        component={DemandeSuiv}
-      />  
+      />
     </Tab.Navigator>
   )
 }

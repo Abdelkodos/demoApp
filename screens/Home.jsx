@@ -3,8 +3,8 @@ import { Button, StyleSheet, Text, Image, View, FlatList, TouchableOpacity } fro
 import TodoItem from '../components/TodoItem'
 import TodoForm from '../components/TodoForm'
 import Header from '../components/Header'
-import { useSelector } from 'react-redux'
-import { store } from '../store.js'
+// import { useSelector } from 'react-redux'
+// import { store } from '../store.js'
 
 
 export default function Home({ navigation }) {
@@ -23,8 +23,6 @@ export default function Home({ navigation }) {
       // { text: "do homeworks", key: '12'},
     ])
 
-  const state = store.getState()
-  const data = state.data
   // const count = useSelector((state) => state.counter.value)
 
   const pressHandler = (key) => {

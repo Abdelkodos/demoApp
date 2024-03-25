@@ -50,97 +50,59 @@ const InfoArea = (props) => {
 
 const DataDisplay = (props) => {
 
-  const { type } = props
-  const data = useSelector(selectData)
-
+  const { type, data } = props
   useEffect(() => {
     // dispatch(fetchData())
-    console.log(data)
+    if ( data != null ) {
+      console.log(data)
+    } else {
+      console.log(data)
+    }
+      
   }, [data])
 
-  /* const prestations = [
-    {
-      id: 1,
-      prestation: 'Crédit IMTILAK',
-      status: 'accepted',
-      price: 280_000
-    },
-    {
-      id: 2,
-      prestation: 'Crédit YASSIR',
-      status: 'inProgress',
-      price: 20_000
-    },
-    {
-      id: 3,
-      prestation: 'Aide au Préscolaire',
-      status: 'refused',
-      price: 'Hayat BEN ALLA'
-    },
-    {
-      id: 4,
-      prestation: 'Pèlerinage',
-      status: 'inProgress',
-      price: 'Ahmed BEN ALLA'
-    },
-    {
-      id: 5,
-      prestation: 'Fond de soutien',
-      status: 'inProgress',
-      price: 'Ahmed BEN ALLA'
-    },
-    {
-      id: 6,
-      prestation: 'Nafida 2 (Internet)',
-      status: 'accepted',
-      price: 'Ahmed BEN ALLA'
-    },
-    {
-      id: 7,
-      prestation: 'Nafida 2 (Subvention)',
-      status: 'attended',
-      price: 'Ahmed BEN ALLA'
-    },
-    {
-      id: 8,
-      prestation: "Bourse d'étude",
-      status: 'inProgress',
-      price: 'Salah BEN ALLA'
-    },
-  ] */
+  
 
-  if ( data ) {
+
+  if ( data != null ) {
     return (
-      <View style={{ paddingHorizontal: 10 }} >
-        <Text style={{ fontSize: 16, fontWeight: 700, paddingVertical: 14 }} >Demandes de { type === 'information' ? 'informations' : type === 'prestation' ? 'prestations' : 'reclamations'  }</Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: 235, marginHorizontal: 9 }} >
-          <Text style={{ color: '#787579', fontSize: 12 }} >    Intitulé</Text>
-          <Text style={{ color: '#787579', fontSize: 12 }} >Statut</Text>
-        </View>
-        { 
-            type === 'presentation' ? data.prestations.map((prestation) => <InfoArea title={prestation.prestation} price={prestation.price} status={prestation.status} />) : type === 'information' ? data.informations.map((information) => <InfoArea title={information.information} price={information.price} status={information.status} />) : type === 'reclamation' ? data.reclamations.map((reclamation) => <InfoArea title={reclamation.reclamation} price={reclamation.price} status={reclamation.status} />)
-          
+      <>
+        {
+          data == null
+          ?
+          <View style={{ paddingHorizontal: 10 }} >        
+            <Text>No DATA</Text>
+          </View>
           :
-            <Text>No DATA</Text>        
-            
-                    
+          <View style={{ paddingHorizontal: 10 }} >
+            <Text style={{ fontSize: 16, fontWeight: 700, paddingVertical: 14 }} >Demandes { type === 'information' ? "d'informations" : type === 'prestation' ? 'de prestations' : 'de reclamations'  }</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: 235, marginHorizontal: 9 }} >
+              <Text style={{ color: '#787579', fontSize: 12 }} >    Intitulé</Text>
+              <Text style={{ color: '#787579', fontSize: 12 }} >Statut</Text>
+            </View>
+            { 
+                type === 'presentation' ? data.prestations.map((prestation) => <InfoArea title={prestation.prestation} price={prestation.price} status={prestation.status} />) : type === 'information' ? data.informations.map((information) => <InfoArea title={information.information} price={information.price} status={information.status} />) : type === 'reclamation' ? data.reclamations.map((reclamation) => <InfoArea title={reclamation.reclamation} price={reclamation.price} status={reclamation.status} />)
+              
+              :
+              
+                <Text>{ typeof data }</Text>
+                
+                        
+            }
+          </View>
         }
-      </View>
-    )
-  }
-  if ( data === undefined ) {
-    return (
-      <View style={{ paddingHorizontal: 10 }} >        
-        <Text>No DATA</Text>
-      </View>
+      </>
+      
     )
   }
   
 }
 
 const DemandeSuiv = () => {
-
+  const dispatch = useDispatch()
+  dispatch(fetchData())
   const state = store.getState()
+  const data = state.rootReducer.data
   const [ dataType, setDataType ] = React.useState('information')
   
 
@@ -163,7 +125,7 @@ const DemandeSuiv = () => {
         }}
         >
           <Text style={{ fontWeight: 700, fontSize: 12, 
-            color: dataType === 'presentation' ? '#FFF' : '#000'
+            color: dataType === 'prestation' ? '#FFF' : '#000'
           }} >Prestations</Text>
         </TouchableOpacity>
         <TouchableOpacity 
@@ -201,7 +163,7 @@ const DemandeSuiv = () => {
           }} >Réclamations</Text>
         </TouchableOpacity>
       </View>
-          <DataDisplay type={dataType} />
+      <DataDisplay type={dataType} data={data} />
           
       
     </View>

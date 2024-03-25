@@ -1,11 +1,11 @@
-import * as types from "./types"
+import * as types from "../types"
 
-export const reducer = ( state, action ) => {
+export const dataReducer = ( state = null, action ) => {
   switch (action.type) {
     case types.DATA_FETCH_SUCCEEDED:
       return action.payload
     case types.DATA_LOSE_SUCCEEDED:
-      return action.payload
+      return null
     default:
       return state
   }

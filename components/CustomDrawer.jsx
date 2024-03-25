@@ -23,7 +23,7 @@ import AuthBtn from './AuthBtn'
 import Prestations from './icons/Prestations'
 import AboutIcon from './icons/AboutIcon'
 // import { login, logout } from '../features/auth/loggedinSlice.js'
-import { fetchData, store } from '../store.js'
+import { fetchData, loseData, loseUser, selectUser, store } from '../store.js'
 import { useEffect } from 'react'
 
 export const CustomDrawer = (props) => {
@@ -32,6 +32,7 @@ export const CustomDrawer = (props) => {
   // const count = useSelector((state) => state.counter.value)
   // const logState = useSelector((state) => state.isLogged.value)
   const state = store.getState()
+  const user = useSelector(selectUser)
   const dispatch = useDispatch()
   const action = type => store.dispatch({type})
 
@@ -52,10 +53,10 @@ export const CustomDrawer = (props) => {
         
         <View style={{ alignItems: 'center' }} >
         <HeaderTitle />
-        { state ? 
+        { user != null ? 
           (
             <View>
-            <ProfilLink />
+            <ProfilLink name={user.fullName} id={user.userId} navigation={navigation} />
 
         <View style={styles.line}>
         </View>
@@ -76,7 +77,7 @@ export const CustomDrawer = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('SuivDemand')
+            navigation.navigate('DemandeSuiv')
           }}
           style={{ flexDirection: 'row', alignItems: 'center', padding: 18, width: 270, marginHorizontal: 6, paddingVertical: 22 }} >
           <SuiviDemIcon sideBar />
@@ -101,7 +102,7 @@ export const CustomDrawer = (props) => {
           
           onPress={() => { 
                             props.navigation.closeDrawer()
-                            return action('DATA_LOSE_SUCCEEDED') 
+                            dispatch(loseUser())
                   }}
           style={{ flexDirection: 'row', alignItems: 'center', padding: 18, width: 270, marginHorizontal: 6, paddingVertical: 22 }} >
           <AntDesign name="poweroff" size={20} color="#4E4446" />
@@ -114,7 +115,7 @@ export const CustomDrawer = (props) => {
               <TouchableOpacity
                 onPress={() => {
                           props.navigation.closeDrawer()  
-                          dispatch(fetchData())}
+                          /* dispatch(fetchData()) */}
                 }
                 style={{
                   backgroundColor: '#822C41',
